@@ -155,11 +155,12 @@ let daemon_main ?directory ?log_level ?first_fcst_time ~error_rcpt_to ~base_url 
           goto_next_forecast
         | `Res (Ok ()) ->
           Log.Global.info !"Completed %{Forecast_time#yyyymmddhh}" forecast_time;
-          (match%bind clean_directory ?directory ~keep:forecast_time () with
+          goto_next_forecast))
+          (* (match%bind clean_directory ?directory ~keep:forecast_time () with
           | Error err ->
             Log.Global.error !"Cleanup failed %{Error#mach}" err;
             return (`Finished err)
-          | Ok () -> goto_next_forecast)))
+          | Ok () -> goto_next_forecast))) *)
   in
   let%bind () = wait_for_mails () in
   let%bind () = Log.Global.flushed () in
